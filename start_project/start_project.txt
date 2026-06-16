@@ -1,0 +1,19 @@
+// start project
+drogon_ctl create project hello_drogon
+// enter folder hello_drogon
+gedit config.json
+// set port to requirement (80 or 8585)
+
+// edit main.cc file:
+// set this line out of comment!
+drogon::app().loadConfigFile("../config.json");
+// build project
+cd build
+cmake ..
+make
+
+
+
+// run project
+./hello_drogon
+

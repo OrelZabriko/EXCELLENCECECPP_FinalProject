@@ -1,0 +1,15 @@
+// start database service
+sudo service postgresql start
+
+// start database interface
+sudo -i -u postgres psql
+
+// setting the user
+ALTER USER postgres WITH PASSWORD 'ayal_rules';
+CREATE DATABASE test;
+
+// after creating script init_db.sql
+psql -h 127.0.0.1 -U postgres -d test -W -f init_db.sql
+
+// to see the table:
+psql -h 127.0.0.1 -U postgres -d test -W -c "SELECT * FROM users;"
