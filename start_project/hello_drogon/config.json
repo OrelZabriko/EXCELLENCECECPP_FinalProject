@@ -2,8 +2,10 @@
     "ssl": {
         "cert": "../../trantor/trantor/tests/server.crt",
         "key": "../../trantor/trantor/tests/server.key",
+        "client_verify": false,
+        "ca_path": "/etc/ssl/certs",
         "conf": [
-            ["Options", "-SessionTicket"], 
+            ["Options", "-SessionTicket"],
             ["Options", "Compression"]
         ]
     },

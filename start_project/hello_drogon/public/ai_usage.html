@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Drogon LLM Dual Mode</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f4f7f6; display: flex; flex-direction: column; gap: 20px;}
+        .container { display: flex; gap: 20px; }
+        .box { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        textarea { width: 100%; height: 80px; padding: 10px; box-sizing: border-box; border-radius: 4px; border: 1px solid #ccc; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px; margin-top: 10px;}
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 4px; min-height: 150px; white-space: pre-wrap; word-wrap: break-word;}
+    </style>
+</head>
+<body>
+
+    <h1>Drogon LLM Integration (Standard vs Streaming)</h1>
+    <textarea id="prompt" placeholder="Enter your prompt here... (e.g., Write a short poem about C++)"></textarea>
+    <div><button onclick="runDualDemo()">Send to Both Modes</button></div>
+
+    <div class="container">
+        <div class="box">
+            <h2>1. Standard Blocking Response</h2>
+            <p><small>Waits for the entire model generation to finish before showing anything.</small></p>
+            <pre id="blocking-output">Click send to execute...</pre>
+        </div>
+
+        <div class="box">
+            <h2>2. Async Stream Response</h2>
+            <p><small>Displays words immediately in real-time as they are being generated.</small></p>
+            <pre id="stream-output">Click send to execute...</pre>
+        </div>
+    </div>
+
+    <script>
+        async function runDualDemo() {
+            const prompt = document.getElementById('prompt').value;
+            if(!prompt) return alert("Please enter a prompt!");
+
+            // ניקוי תיבות הטקסט
+            document.getElementById('blocking-output').innerText = "Loading entire response...";
+            document.getElementById('stream-output').innerText = "";
+
+            // --- הפעלת שיטה 1: בקשה רגילה (JSON) ---
+            fetch('/api/chat/blocking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ prompt: prompt })
+            })
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('blocking-output').innerText = data.reply || data.error;
+            }).catch(err => document.getElementById('blocking-output').innerText = "Error loading.");
+
+            // --- הפעלת שיטה 2: בקשת סטרימינג (Stream) ---
+            try {
+                const response = await fetch('/api/chat/stream', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder("utf-8");
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    // ניקוי תחילית ה-SSE ("data: ")
+                    const cleanChunk = chunk.replace(/data: /g, "");
+                    document.getElementById('stream-output').innerText += cleanChunk;
+                }
+            } catch (err) {
+                document.getElementById('stream-output').innerText = "Streaming error.";
+            }
+        }
+    </script>
+</body>
+</html>
+
