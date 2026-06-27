@@ -11,7 +11,7 @@
 #include "repo_key.h"
 
 OpenAiRepository::OpenAiRepository() 
-    : apiKey_(REPO_KEY) 
+    : apiKey_(REPO_STRING) 
 {
 }
 
