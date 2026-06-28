@@ -7,7 +7,7 @@
 #include <vector>
 
 // הכלת ה-Repository והמודלים
-#include "UserRepository.h" 
+#include "UserQueries.h" 
 #include "../models/Users.h"
 #include "../models/Roles.h"
 

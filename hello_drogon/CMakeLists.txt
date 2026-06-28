@@ -24,8 +24,8 @@ add_executable(${PROJECT_NAME}
     controllers/AiController.cc
     services/UserService.cc
     services/AiService.cc
+    services/UserQueries.cc
     Repository/DB_Repository.cc
-    Repository/UserRepository.cc
     Repository/OpenAiRepository.cc
 )
 

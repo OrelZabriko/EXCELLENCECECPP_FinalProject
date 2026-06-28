@@ -1,4 +1,4 @@
-#include "UserRepository.h"
+#include "UserQueries.h"
 
 void UserRepository::getAllUsers(DbSelectCallback&& success, DbErrorCallback&& error) {
     DB_Repository::getInstance().runSelectQuery("users", std::move(success), std::move(error), "id, username, email, created_at", "");
