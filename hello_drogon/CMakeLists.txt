@@ -20,6 +20,7 @@ find_package(Drogon CONFIG REQUIRED)
 add_executable(${PROJECT_NAME}
     main.cc
     controllers/UsersController.cc
+    controllers/UserWithRolesController.cc
     controllers/AiController.cc
     services/UserService.cc
     services/AiService.cc

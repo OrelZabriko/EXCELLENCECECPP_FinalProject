@@ -1,13 +1,29 @@
 #pragma once
 #include <functional>
 #include <string>
-#include <optional> // <-- להוסיף את זה עבור std::optional
+#include <optional> 
 #include <drogon/drogon.h>
-#include "UserRepository.h"
+#include <drogon/orm/Mapper.h>
+#include <vector>
 
-// התיקון: עטיפת ה-Result ב-std::optional
+// הכלת ה-Repository והמודלים
+#include "UserRepository.h" 
+#include "../models/Users.h"
+#include "../models/Roles.h"
+
+// הגדרת מבנה נתונים שטוח להעברת המידע ל-Controller (Data Transfer Object)
+struct UserWithRoleDTO {
+    int32_t id;
+    std::string username;
+    std::string email;
+    std::string roleName;
+};
+
 using GetUsersCallback = std::function<void(bool success, const std::optional<drogon::orm::Result>& result, const std::string& errorMsg)>;
 using ActionCallback   = std::function<void(bool success, const std::string& message)>;
+
+// עדכון ה-Callback שיעביר את וקטור ה-DTOs במקום המודל הגולמי של ה-ORM
+using GetOMRUsersCallback = std::function<void(bool success, const std::vector<UserWithRoleDTO>& users, const std::string& errorMsg)>;
 
 class UserService {
 private:
@@ -19,4 +35,5 @@ public:
 
     void getUsersList(GetUsersCallback&& callback);
     void createNewUser(const std::string& username, const std::string& email, ActionCallback&& callback);
+    void getUsersWithRolesList(GetOMRUsersCallback&& callback);
 };

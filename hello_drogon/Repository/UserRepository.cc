@@ -11,9 +11,9 @@ void UserRepository::insertUser(
     DbErrorCallback&& error
 ) {
     // בניית שאילתת INSERT
-    std::string sqlQuery = "INSERT INTO users (username, email) VALUES ("
+    std::string sqlQuery = "INSERT INTO users (username, email, role_id ) VALUES ("
                            "'" + username + "', "
-                           "'" + email + "')";
+                           "'" + email + "',1)";
 
     // הרצה מול הסינגלטון
     DB_Repository::getInstance().run_update_query(

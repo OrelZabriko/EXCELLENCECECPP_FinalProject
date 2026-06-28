@@ -18,7 +18,7 @@
         .container {
             text-align: center;
             padding: 30px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 192, 255, 0.1);
             border-radius: 15px;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
@@ -33,13 +33,32 @@
             font-size: 1.2rem;
             opacity: 0.8;
         }
+        /* 🔥 עיצוב הקישורים/כפתורים החדש 🔥 */
+        .btn {
+            display: inline-block;
+            margin: 10px;
+            padding: 12px 24px;
+            
+            /* שינוי צבע הטקסט והרקע */
+            color: #1e3c72;            /* צבע הטקסט בתוך הכפתור (כחול כהה) */
+            background-color: #ffffff; /* צבע הרקע של הכפתור (לבן) */
+            
+            font-size: 1rem;
+            font-weight: bold;
+            text-decoration: none;     /* מוריד את הקו התחתון האוטומטי של הקישור */
+            border-radius: 25px;       /* פינות עגולות */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease; /* אנימציה חלקה במעבר עכבר */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Welcome to Ayal's amazing page</h1>
         <p>Powered by Drogon C++ Web Framework 🚀</p>
-        <a href="/users" class="btn">View Database Content ➡️</a>
+        <a href="/users" class="btn">View Database Content ➡️</a></p>
+        <a href="/users_roles" class="btn">View users with roles ➡️</a></p>
+        <a href="/ai_usage.html" class="btn">Call AI Project➡️</a>
     </div>
 </body>
 </html>
